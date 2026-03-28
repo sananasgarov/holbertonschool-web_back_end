@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+""" LIFO Caching """
+
 from base_caching import BaseCaching
+
+
 class LIFOCache(BaseCaching):
     """ LIFO caching system """
 

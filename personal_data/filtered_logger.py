@@ -25,10 +25,11 @@ def filter_datum(fields: Tuple[str, ...], redaction: str, message: str,
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class """
+    """Redacting Formatter class"""
 
     REDACTION = "***"
-    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    FORMAT = ("[HOLBERTON] %(name)s %(levelname)s "
+              "%(asctime)-15s: %(message)s")
     SEPARATOR = ";"
 
     def __init__(self, fields: Tuple[str, ...]):
@@ -44,9 +45,7 @@ class RedactingFormatter(logging.Formatter):
 
 # ------------------ Logger ------------------
 def get_logger() -> logging.Logger:
-    """
-    Returns a logger named 'user_data' with RedactingFormatter applied
-    """
+    """Returns a logger named 'user_data' with RedactingFormatter applied"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False

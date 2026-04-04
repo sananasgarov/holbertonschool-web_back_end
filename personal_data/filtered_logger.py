@@ -14,14 +14,13 @@ PII_FIELDS: Tuple[str, ...] = ("name", "email", "ssn", "password", "phone")
 
 
 # ------------------ Redacting Formatter ------------------
-def filter_datum(fields: Tuple[str, ...], redaction: str, message: str, separator: str) -> str:
+def filter_datum(fields: Tuple[str, ...], redaction: str, message: str,
+                 separator: str) -> str:
     """
     Replace values of specified fields in message with redaction
     """
     for field in fields:
         message = message.replace(f"{field}=", f"{field}={redaction}")
-        # For more robust, use regex:
-        # message = re.sub(f"(?<={field}=).*?(?={separator}|$)", redaction, message)
     return message
 
 
@@ -37,7 +36,9 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        record.msg = filter_datum(self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR)
+        record.msg = filter_datum(
+            self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR
+        )
         return super().format(record)
 
 

@@ -1,27 +1,34 @@
 #!/usr/bin/env python3
 """
-Main module for reading and filtering users data from MySQL database
+Main file to test filtered_logger.py
+
+- Logs a PII message using the RedactingFormatter
+- Connects to the secure database and counts users
 """
 
-from filtered_logger import get_db, get_logger, PII_FIELDS
 import logging
+from filtered_logger import get_logger, get_db, PII_FIELDS
 
-
-def main() -> None:
-    """Fetch all users and log each row with PII fields redacted."""
-    db = get_db()
-    cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users;")
+def test_logger():
+    """Test the RedactingFormatter logger"""
     logger = get_logger()
+    message = "name=Bob;email=bob@dylan.com;ssn=000-123-0000;password=bobby2019;phone=123456789;"
+    logger.info(message)
 
+
+def test_db():
+    """Test the database connection"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT COUNT(*) FROM users;")
     for row in cursor:
-        # Create message string from row dict
-        message = "; ".join(f"{k}={v}" for k, v in row.items()) + ";"
-        logger.info(message)
-
+        print("Users count in database:", row[0])
     cursor.close()
     db.close()
 
 
 if __name__ == "__main__":
-    main()
+    print("Testing logger...")
+    test_logger()
+    print("\nTesting database connection...")
+    test_db()

@@ -6,7 +6,6 @@ Filtered logger and secure database connection
 import logging
 import os
 import mysql.connector
-from mysql.connector import MySQLConnection
 from typing import Tuple
 
 # ------------------ PII Fields ------------------
@@ -59,7 +58,7 @@ def get_logger() -> logging.Logger:
 
 
 # ------------------ Secure Database Connection ------------------
-def get_db() -> MySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     Connects to the MySQL database from environment variables.
 

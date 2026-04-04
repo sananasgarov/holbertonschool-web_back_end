@@ -3,7 +3,7 @@
 import logging
 from typing import List
 import re
-
+"""Module for filtering and logging personal data."""
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
@@ -40,7 +40,7 @@ class RedactingFormatter(logging.Formatter):
             self.SEPARATOR
         )
 
-
+"""Module for filtering and logging personal data."""
 def get_logger() -> logging.Logger:
     """Creates and returns a logger"""
     logger = logging.getLogger("user_data")

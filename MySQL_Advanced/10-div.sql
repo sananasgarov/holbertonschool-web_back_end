@@ -1,3 +1,4 @@
+-- Safely divides two integers and returns 0 when the divisor is zero.
 DELIMITER $$
 CREATE FUNCTION SafeDiv(a INT, b INT)
 RETURNS FLOAT

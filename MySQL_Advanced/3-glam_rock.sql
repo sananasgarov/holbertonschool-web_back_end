@@ -1,3 +1,4 @@
+-- Lists Glam rock bands ranked by lifespan up to the year 2024.
 SELECT band_name,
        IFNULL(2024 - split, 2024) - formed AS lifespan
 FROM metal_bands

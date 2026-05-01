@@ -1,3 +1,4 @@
+-- Resets valid_email only when the email address is changed.
 DELIMITER $$
 CREATE TRIGGER reset_valid_email
 BEFORE UPDATE ON users

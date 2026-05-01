@@ -1,3 +1,4 @@
+-- Shows students who need a meeting based on score and last meeting date.
 CREATE VIEW need_meeting AS
 SELECT name
 FROM students

@@ -1,3 +1,4 @@
+-- Computes and stores the average score for a specific user.
 DELIMITER $$
 CREATE PROCEDURE ComputeAverageScoreForUser(IN p_user_id INT)
 BEGIN

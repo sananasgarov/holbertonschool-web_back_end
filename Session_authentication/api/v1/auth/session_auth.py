@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 """ Module of API views for the API authentication. """
-import os
-
-from flask import request
-from typing import List, TypeVar
 from api.v1.auth.auth import Auth
 import uuid
 
@@ -37,3 +33,14 @@ class SessionAuth(Auth):
             return None
 
         return User.get(user_id)
+
+    def destroy_session(self, request=None):
+        """delets the user session logout"""
+        if request is None or self.session_cookie(request) is None:
+            return False
+
+        if self.session_cookie(request) not in self.user_id_by_session_id:
+            return False
+
+        del self.user_id_by_session_id[self.session_cookie(request)]
+        return True

@@ -1,42 +1,40 @@
 #!/usr/bin/env python3
-""" MRU Caching """
+"""MRU caching in python"""
 
-from base_caching import BaseCaching
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class MRUCache(BaseCaching):
-    """ MRU caching system """
-
+    """MRU caching in python"""
     def __init__(self):
-        """ Init """
+        """starts the MRU cache with its policy"""
         super().__init__()
-        self.usage_order = []
+        self.order = []
 
     def put(self, key, item):
-        """ Add item in cache """
+        """Add or update an item in the cache using MRU policy."""
         if key is None or item is None:
             return
 
-        # Əgər key artıq varsa → yenilə
         if key in self.cache_data:
-            self.usage_order.remove(key)
-        else:
-            # yeni keydirsə və limit dolubsa
-            if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                mru_key = self.usage_order.pop()
-                del self.cache_data[mru_key]
-                print("DISCARD:", mru_key)
+            self.cache_data[key] = item
+            self.order.remove(key)
+            self.order.append(key)
+            return
+
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            used_key = self.order.pop()
+            del self.cache_data[used_key]
+            print("DISCARD: {}".format(used_key))
 
         self.cache_data[key] = item
-        self.usage_order.append(key)
+        self.order.append(key)
 
     def get(self, key):
-        """ Get item """
+        """Return the value linked to key and update recent usage."""
         if key is None or key not in self.cache_data:
             return None
 
-        # istifadə olundu → sona at
-        self.usage_order.remove(key)
-        self.usage_order.append(key)
-
+        self.order.remove(key)
+        self.order.append(key)
         return self.cache_data[key]

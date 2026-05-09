@@ -52,29 +52,36 @@ class Auth:
         self._db.update_user(user.id, session_id=session_id)
         return session_id
 
-    def get_user_from_session_id(self, session_id: str = None) -> User:
-        """Returns the User based on session_id"""
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """get user from session id"""
         if session_id is None:
             return None
         try:
-            return self._db.find_user_by(session_id=session_id)
+            user = self._db.find_user_by(session_id=session_id)
+            return user
         except NoResultFound:
             return None
 
     def destroy_session(self, user_id: int) -> None:
-        """Destroys the session of a user by user_id"""
-        try:
-            self._db.update_user(user_id, session_id=None)
-        except NoResultFound:
-            pass
+        """destroy session"""
+        self._db.update_user(user_id, session_id=None)
 
     def get_reset_password_token(self, email: str) -> str:
-        """Get reset password token"""
+        """get reset pass token"""
         try:
             user = self._db.find_user_by(email=email)
         except NoResultFound:
             raise ValueError
-        
         reset_token = _generate_uuid()
         self._db.update_user(user.id, reset_token=reset_token)
         return reset_token
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """update password"""
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+        hashed_password = _hash_password(password)
+        self._db.update_user(user.id, hashed_password=hashed_password,
+                             reset_token=None)

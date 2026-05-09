@@ -1,1 +1,1 @@
-sasda
+SQL advanced

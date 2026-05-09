@@ -1,4 +1,4 @@
--- Decreases item quantity automatically after a new order is inserted.
+-- decreases item quantity automatically after a new order is inserted.
 CREATE TRIGGER decrease_item_quantity
 AFTER INSERT ON orders
 FOR EACH ROW

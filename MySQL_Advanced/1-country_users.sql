@@ -1,7 +1,8 @@
--- Creates the users table with a country ENUM and default value.
+-- create table with country column
+-- ADVANDCED SQL
 CREATE TABLE IF NOT EXISTS users (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     name VARCHAR(255),
-    country ENUM('US', 'CO', 'TN') NOT NULL DEFAULT 'US'
+    country VARCHAR(255) NOT NULL DEFAULT 'US'
 );

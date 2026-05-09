@@ -1,1 +1,1 @@
-NOSQL
+NoSQL

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Minimal local replacement for parameterized.expand used in tests.
 """
-from functools import wraps
 
 
 class parameterized:
@@ -9,16 +8,30 @@ class parameterized:
 
     @staticmethod
     def expand(cases):
-        """Run the wrapped test once for each case."""
+        """Create one unittest method per case."""
 
-        def decorator(fn):
-            @wraps(fn)
-            def wrapper(*args, **kwargs):
-                for case in cases:
+        class ParameterizedTest:
+            """Descriptor that registers generated test methods."""
+
+            def __init__(self, function):
+                self.function = function
+
+            def __set_name__(self, owner, name):
+                for index, case in enumerate(cases):
                     if not isinstance(case, tuple):
                         case = (case,)
-                    fn(*args, *case, **kwargs)
 
-            return wrapper
+                    def generated_test(self, _case=case, _function=self.function):
+                        return _function(self, *_case)
+
+                    generated_test.__name__ = f"{name}_{index}"
+                    generated_test.__doc__ = self.function.__doc__
+                    setattr(owner, generated_test.__name__, generated_test)
+
+            def __get__(self, instance, owner):
+                return self
+
+        def decorator(fn):
+            return ParameterizedTest(fn)
 
         return decorator

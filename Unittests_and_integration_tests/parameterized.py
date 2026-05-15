@@ -77,6 +77,7 @@ class parameterized:
                 class_name = f"{cls.__name__}_{index}"
                 generated_class = type(class_name, (cls,), values)
                 generated_class.__module__ = cls.__module__
+                generated_class.__doc__ = cls.__doc__
                 setattr(module, class_name, generated_class)
 
             cls.__test__ = False

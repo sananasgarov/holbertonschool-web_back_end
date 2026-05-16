@@ -3,6 +3,10 @@
         "/^cd /c/Users/senan/OneDrive/Desktop/holbertonschool-web_back_end/unittests_in_js && npm install$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^cd /c/Users/senan/OneDrive/Desktop/holbertonschool-web_back_end/unittests_in_js && npm install --save-dev sinon$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }
